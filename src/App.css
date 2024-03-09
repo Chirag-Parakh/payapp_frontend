@@ -1,0 +1,6 @@
+.input-styles{
+    @apply px-1 py-0.5 border w-full my-2 transition-transform duration-150
+}
+.input-styles:hover{
+    @apply transform scale-105
+}
