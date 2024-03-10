@@ -1,30 +1,59 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 import { FaCheck } from "react-icons/fa";
+import { userInfo } from '../Store/atom';
+import { useSetRecoilState } from "recoil";
 
 function Signup() {
-  const [userName , setuserName] = useState('')
-  const [password , setpassword] = useState('')
-  const [conpassword , setconpassword] = useState('')
-  const [mail , setMail] = useState('')
-  const [firstName , setfirstName] = useState('')
-  const [lastName , setlastName] = useState('')
+  const [userName, setuserName] = useState('')
+  const [password, setpassword] = useState('')
+  const [conpassword, setconpassword] = useState('')
+  const [mail, setMail] = useState('')
+  const [firstName, setfirstName] = useState('')
+  const [lastName, setlastName] = useState('')
   const [upperValid, setupperValid] = useState(false);
   const [lowerValid, setlowerValid] = useState(false);
   const [numValid, setnumValid] = useState(false);
   const [specValid, setspecValid] = useState(false);
   const [lenValid, setlenValid] = useState(false);
+  const navigate = useNavigate();
+  const setuserInfo = useSetRecoilState(userInfo);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const {data} = await axios.post('http://localhost:3000/signup' , {
-      username: userName,
-      password: password,
-      email:mail,
-      firstName : firstName,
-      lastName : lastName
-    })
-    console.log(data);
+    if (password !== conpassword) {
+      return alert("Password and confirm password does not match")
+    }
+    try {
+      const { data } = await axios.post('http://localhost:3000/signup', {
+        username: userName,
+        password: password,
+        email: mail,
+        firstName: firstName,
+        lastName: lastName
+      })
+      localStorage.setItem("token", data.token);
+      setuserInfo(data.UserInfo)
+      alert(data.message);
+      console.log(data);
+      if (data.token) {
+        navigate('/dashboard');
+      }
+    }
+    catch (error) {
+      if (error.response && error.response.status == 400) {
+        if (error.response.data && error.response.data.message) {
+          alert(error.response.data.message)
+        }
+        else {
+          alert('unkown erroe occured')
+        }
+      }
+      else {
+        alert('Network error or server is down');
+      }
+    }
   }
 
   useEffect(() => {
@@ -36,61 +65,61 @@ function Signup() {
     setlowerValid(lowerReges.test(password));
     setnumValid(numReges.test(password));
     setspecValid(specialReges.test(password));
-    if(password.length>=8){
+    if (password.length >= 8) {
       setlenValid(true);
     }
-    else{
+    else {
       setlenValid(false)
     }
 
-  } , [password])
+  }, [password])
   return (
     <div className=' w-screen h-screen flex justify-center items-center bg-slate-300'>
       <div className=' py-4 px-6 w-80 border-2 border-blue-950 rounded flex flex-col justify-around bg-white' >
-        <div className='text-center text-blue-950 text-xl mb-6 font-semibold'>Sign in</div>
+        <div className='text-center text-blue-950 text-xl mb-6 font-semibold'>Sign up</div>
         <form action="" onSubmit={handleFormSubmit} className='flex flex-col justify-between items-center'>
           <input
             type="text"
             placeholder='First Name'
             className='input-styles'
             value={firstName}
-            onChange={(e)=>{setfirstName(e.target.value)}}
-            />
+            onChange={(e) => { setfirstName(e.target.value) }}
+          />
           <input
             type="text"
             placeholder='Last Name'
             value={lastName}
-            onChange={(e)=>{setlastName(e.target.value)}}
+            onChange={(e) => { setlastName(e.target.value) }}
             className='input-styles' />
           <input
             type="email"
             placeholder='Email address'
-            className='input-styles' 
+            className='input-styles'
             value={mail}
-            onChange={(e)=>{setMail(e.target.value)}}
-            />
+            onChange={(e) => { setMail(e.target.value) }}
+          />
           <input
             type="text"
             placeholder='Username'
-            className='input-styles' 
+            className='input-styles'
             value={userName}
-            onChange={(e)=>{setuserName(e.target.value)}}
-            />
-            
+            onChange={(e) => { setuserName(e.target.value) }}
+          />
+
           <input
             type="password"
             placeholder='Password'
-            className='input-styles' 
+            className='input-styles'
             value={password}
-            onChange={(e)=>{setpassword(e.target.value)}}
-            />
+            onChange={(e) => { setpassword(e.target.value) }}
+          />
           <input
             type="password"
             placeholder='Confirm Password'
-            className='input-styles' 
+            className='input-styles'
             value={conpassword}
-            onChange={(e)=>{setconpassword(e.target.value)}}
-            />
+            onChange={(e) => { setconpassword(e.target.value) }}
+          />
           <div className=' text-xs mt-1 pr-3'>
             <p className='flex my-0.5'> <FaCheck color={lenValid ? 'green' : 'red'} className='mr-1.5' />At least 8 characters</p>
             <p className='flex my-0.5'> <FaCheck color={upperValid ? 'green' : 'red'} className='mr-1.5' />contains uppercase letters</p>
@@ -98,7 +127,7 @@ function Signup() {
             <p className='flex my-0.5'> <FaCheck color={numValid ? 'green' : 'red'} className='mr-1.5' />contains numbers</p>
             <p className='flex my-0.5'> <FaCheck color={specValid ? 'green' : 'red'} className='mr-1.5' />contains special characters</p>
           </div>
-          <button type='submit' className='mt-4 px-3 text-lg bg-blue-950 hover:scale-95 text-white rounded'>Sign In</button>
+          <button type='submit' className='mt-4 px-3 text-lg bg-blue-950 hover:scale-95 text-white rounded'>Sign up</button>
 
         </form>
       </div>
