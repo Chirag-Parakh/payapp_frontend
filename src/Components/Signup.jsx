@@ -74,14 +74,17 @@ function Signup() {
 
   }, [password])
   return (
-    <div className=' w-screen h-screen flex justify-center items-center bg-slate-300'>
-      <div className=' py-4 px-6 w-80 border-2 border-blue-950 rounded flex flex-col justify-around bg-white' >
-        <div className='text-center text-blue-950 text-xl mb-6 font-semibold'>Sign up</div>
-        <form action="" onSubmit={handleFormSubmit} className='flex flex-col justify-between items-center'>
+    <div className=' w-screen h-screen flex justify-center items-center bg-slate-100'>
+      <div className='mt-[40px] py-4 px-6 pb-6 min-w-72 flex flex-col justify-around  bg-customBlue rounded-[24px]' >
+        <div className=' text-xl mt-2 font-semibold'>Sign up</div>
+        <div className='text-sm'> It's quick and easy.</div>
+        <span className='border bg-black h-1 w-full mb-3 mt-5'></span>
+        <form action="" onSubmit={handleFormSubmit} className='flex flex-col justify-between items-center '>
+          <div className='flex flex-col sm:flex-row w-full'>
           <input
             type="text"
             placeholder='First Name'
-            className='input-styles'
+            className='input-styles mr-1'
             value={firstName}
             onChange={(e) => { setfirstName(e.target.value) }}
           />
@@ -90,7 +93,8 @@ function Signup() {
             placeholder='Last Name'
             value={lastName}
             onChange={(e) => { setlastName(e.target.value) }}
-            className='input-styles' />
+            className='input-styles ml-1' />
+          </div>
           <input
             type="email"
             placeholder='Email address'
@@ -120,14 +124,14 @@ function Signup() {
             value={conpassword}
             onChange={(e) => { setconpassword(e.target.value) }}
           />
-          <div className=' text-xs mt-1 pr-3'>
+          <div className=' text-xs mt-2 pr-3'>
             <p className='flex my-0.5'> <FaCheck color={lenValid ? 'green' : 'red'} className='mr-1.5' />At least 8 characters</p>
             <p className='flex my-0.5'> <FaCheck color={upperValid ? 'green' : 'red'} className='mr-1.5' />contains uppercase letters</p>
             <p className='flex my-0.5'> <FaCheck color={lowerValid ? 'green' : 'red'} className='mr-1.5' />contains lowercase letters</p>
             <p className='flex my-0.5'> <FaCheck color={numValid ? 'green' : 'red'} className='mr-1.5' />contains numbers</p>
             <p className='flex my-0.5'> <FaCheck color={specValid ? 'green' : 'red'} className='mr-1.5' />contains special characters</p>
           </div>
-          <button type='submit' className='mt-4 px-3 text-lg bg-blue-950 hover:scale-95 text-white rounded'>Sign up</button>
+          <button type='submit' className='mt-4 px-3 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]'>Sign up</button>
 
         </form>
       </div>

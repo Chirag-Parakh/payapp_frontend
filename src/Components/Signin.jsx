@@ -25,6 +25,7 @@ function Signin() {
             setuserInfo(data.UserInfo)
         }
         catch (error) {
+            console.log(error);
             if (error.response && (error.response.status == 401 || error.response.status == 404)) {
                 if (error.response.data && error.response.data.message) {
                     alert(error.response.data.message)
@@ -40,8 +41,8 @@ function Signin() {
     }
 
     return (
-        <div className=' w-screen h-screen flex justify-center items-center bg-slate-300'>
-            <div className=' py-4 px-6 w-80 border-2 border-blue-950 rounded flex flex-col justify-around bg-white' >
+        <div className=' w-screen h-screen flex justify-center items-center '>
+            <div className=' py-4 px-6 w-80  rounded-[24px] flex flex-col justify-around bg-customBlue' >
                 <form action="" onSubmit={handleFormSubmit} className='flex flex-col justify-between items-center'>
                     <input
                         type="text"
@@ -60,9 +61,9 @@ function Signin() {
                         onChange={(e) => { setpassword(e.target.value) }}
                         required
                     />
-                    <button type='submit' className='mt-4 px-3 text-lg bg-blue-950 hover:scale-95 text-white rounded'>Sign In</button>
-                    <span className='border border-blue-950 w-full mt-5'></span>
-                    <button className='mt-4 px-3 py-1 text-xg bg-blue-950 hover:scale-95 text-white rounded' onClick={() => {navigate('/signup');}}>Create new account</button>
+                    <button type='submit' className='mt-4 px-3 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]'>Sign In</button>
+                    <span className='border bg-black h-1 w-full mt-5'></span>
+                    <button className='mt-4 px-3 py-1 text-xg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]' onClick={() => {navigate('/signup');}}>Create new account</button>
 
                 </form>
             </div>

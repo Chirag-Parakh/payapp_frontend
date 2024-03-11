@@ -11,6 +11,12 @@ export default {
         'noto-sans': ['Noto Sans', 'sans-serif'],
         'tiro-devanagari-hindi': ['Tiro Devanagari Hindi', 'sans-serif'],
       },
+      colors: {
+        customBlue: '#dbecff', 
+      },
+      borderRadius : {
+        signinboxradius : '24px'
+      }
     },
   },
   plugins: [],

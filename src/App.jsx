@@ -1,4 +1,5 @@
 import './App.css'
+import { RecoilRoot } from 'recoil'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Loader from './Components/Loader'
 import Header from './Components/Header'
@@ -10,14 +11,16 @@ function App() {
 
   return (
     <>
-      <Header />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Signin />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-        </Routes>
-      </BrowserRouter>
+      <RecoilRoot>
+        <Header />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </BrowserRouter>
+      </RecoilRoot>
     </>
   )
 }
