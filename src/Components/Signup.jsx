@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 import { FaCheck } from "react-icons/fa";
-import { userInfo } from '../Store/atom';
+import { userInfoAtom } from '../Store/atom';
 import { useSetRecoilState } from "recoil";
 
 function Signup() {
@@ -35,6 +35,7 @@ function Signup() {
       })
       localStorage.setItem("token", data.token);
       setuserInfo(data.UserInfo)
+      console.log(data.userInfo)
       alert(data.message);
       console.log(data);
       if (data.token) {

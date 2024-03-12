@@ -1,14 +1,14 @@
 import axios from 'axios';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-import {userInfo} from '../Store/atom';
+import { userInfoAtom } from '../Store/atom';
 import { useSetRecoilState } from "recoil";
 
 function Signin() {
     const [userName, setuserName] = useState('')
     const [password, setpassword] = useState('')
     const navigate = useNavigate();
-    const setuserInfo = useSetRecoilState(userInfo)
+    const setuserInfo = useSetRecoilState(userInfoAtom)
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -16,13 +16,19 @@ function Signin() {
                 username: userName,
                 password: password
             })
+            console.log(data.UserInfo);
+            setuserInfo(data.UserInfo);
             localStorage.setItem("token", data.token);
-            alert(data.message);
-            console.log(data);
+            localStorage.setItem("userinfo", JSON.stringify(data.UserInfo));
             if (data.token) {
                 navigate('/dashboard');
             }
-            setuserInfo(data.UserInfo)
+            // const FirstName = data.UserInfo.firstName;
+            // const lastName = data.UserInfo.lastName;
+            // const email = data.UserInfo.email;
+            // const username = data.UserInfo.username;
+            // const _id = data.UserInfo._id;
+            // const NewUserInfo = { FirstName , lastName , email , username , _id}
         }
         catch (error) {
             console.log(error);
@@ -63,7 +69,7 @@ function Signin() {
                     />
                     <button type='submit' className='mt-4 px-3 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]'>Sign In</button>
                     <span className='border bg-black h-1 w-full mt-5'></span>
-                    <button className='mt-4 px-3 py-1 text-xg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]' onClick={() => {navigate('/signup');}}>Create new account</button>
+                    <button className='mt-4 px-3 py-1 text-xg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]' onClick={() => { navigate('/signup'); }}>Create new account</button>
 
                 </form>
             </div>
