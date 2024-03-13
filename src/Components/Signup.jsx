@@ -18,7 +18,7 @@ function Signup() {
   const [specValid, setspecValid] = useState(false);
   const [lenValid, setlenValid] = useState(false);
   const navigate = useNavigate();
-  const setuserInfo = useSetRecoilState(userInfo);
+  const setuserInfo = useSetRecoilState(userInfoAtom);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
