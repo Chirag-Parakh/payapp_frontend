@@ -23,12 +23,6 @@ function Signin() {
             if (data.token) {
                 navigate('/dashboard');
             }
-            // const FirstName = data.UserInfo.firstName;
-            // const lastName = data.UserInfo.lastName;
-            // const email = data.UserInfo.email;
-            // const username = data.UserInfo.username;
-            // const _id = data.UserInfo._id;
-            // const NewUserInfo = { FirstName , lastName , email , username , _id}
         }
         catch (error) {
             console.log(error);

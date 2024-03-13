@@ -4,3 +4,7 @@
 .input-styles:hover{
     @apply transform scale-105
 }
+
+.sliding-buttons{
+    @apply text-center text-lg w-1/2 bg-white cursor-pointer rounded
+}
