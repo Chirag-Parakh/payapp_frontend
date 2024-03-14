@@ -8,3 +8,12 @@
 .sliding-buttons{
     @apply text-center text-lg w-1/2 bg-white cursor-pointer rounded
 }
+.scrollbar-thin::-webkit-scrollbar {
+    width: 7px; /* Adjust the width as needed */
+}
+
+.scrollbar-thumb-black::-webkit-scrollbar-thumb {
+    background-color: #026EDD;
+    border-radius: 10px;
+    /* Change to desired thumb color */
+}
