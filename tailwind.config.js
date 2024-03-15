@@ -14,7 +14,8 @@ export default {
       colors: {
         customBlue: '#dbecff', 
         // customgray : '#0000000d'
-        customgray : '#4490c745'
+        customgray : '#4490c745',
+        customSky : '#026EDD'
       },
       borderRadius : {
         signinboxradius : '24px'

@@ -17,3 +17,8 @@
     border-radius: 10px;
     /* Change to desired thumb color */
 }
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

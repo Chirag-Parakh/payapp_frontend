@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { userInfoAtom } from '../Store/atom'
-import { useRecoilValue } from "recoil";
+import { userInfoAtom, showPayScreenAtom, reciverInfoAtom } from '../Store/atom'
+import { useRecoilState, useRecoilValue } from "recoil";
 import axios from 'axios';
 import Loader from './Loader';
 import { IoIosSearch } from "react-icons/io";
+import Payscreen from './Payscreen';
 
 function Dashboard() {
     const info = useRecoilValue(userInfoAtom);
+    const [showPayscreen, setshowPayscreen] = useRecoilState(showPayScreenAtom)
     const Firstname = info.firstName;
     const name = Firstname[0].toUpperCase() + Firstname.slice(1)
     const token = localStorage.getItem("token")
@@ -15,11 +17,9 @@ function Dashboard() {
     const [UsersList, SetUsersList] = useState([]);
     const [UsersFilter, setUsersFilter] = useState('');
     const [filteredUsersList, setfilteredUsersList] = useState(null);
-    const [reciverInfo, setReciverInfo] = useState(null);
-    const [showtransfer , setShowtransfer] = useState(false);
-    console.log(reciverInfo)
-    // console.log(token);
-    // console.log(UsersFilter)
+    const [reciverInfo, setReciverInfo] = useRecoilState(reciverInfoAtom)
+    // const [showtransfer , setShowtransfer] = useState(false);
+    // console.log(reciverInfo)
     useEffect(() => {
         const fetchBalance = async () => {
             try {
@@ -57,7 +57,7 @@ function Dashboard() {
     useEffect(() => {
         const regex = new RegExp(UsersFilter, "i")
         const filterarray = async () => {
-            const FilteredArray = await UsersList.filter(user =>
+            const FilteredArray =  UsersList.filter(user =>
                 regex.test(user.firstName) ||
                 regex.test(user.lastName) ||
                 regex.test(user.username)
@@ -72,7 +72,7 @@ function Dashboard() {
 
     return (
         <div className='bg'>
-            {showtransfer ? <Transfer/> : <></>}
+            {showPayscreen ? <Payscreen /> : <></>}
             <div className='h-12 w-full'></div>
             <div className=' mt-3 flex flex-col items-center'>
                 {/* Hello box */}
@@ -119,10 +119,10 @@ function Dashboard() {
                                             </div>
                                             <button
                                                 className=' px-3.5 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-xl'
-                                                onClick={(e) => { 
-                                                    setReciverInfo(user) 
-                                                    setShowtransfer(true)
-                                                    }}> send </button>
+                                                onClick={(e) => {
+                                                    setReciverInfo(user)
+                                                    setshowPayscreen(true)
+                                                }}><span className='font-xs' >&#8377;</span> Pay</button>
                                         </div>
                                     ))
                                 ) : (
@@ -137,27 +137,8 @@ function Dashboard() {
     )
 }
 
-function Transfer() {
-
+function History() {
     return (
-        <div className='h-full w-full absolute bg-[#000000c2] z-10 flex justify-center items-center'>
-            <div className=' relative w-80 h-60 bg-customBlue rounded-2xl'>
-                <div className=' w-6 h-6 right-0 absolute m-3 border-2 border-black flex justify-center  rounded-full text-sm font-medium cursor-pointer' 
-                onClick={()=> {
-                    setShowtransfer(false)
-                    console.log('hii')
-                    }}>X</div>
-            </div>
-
-            <div className=''>
-
-            </div>
-        </div>
-    )
-}
-
-function History(){
-    return(
         <></>
     )
 }
