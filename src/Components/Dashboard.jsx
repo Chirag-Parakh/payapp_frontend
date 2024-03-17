@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { userInfoAtom, showPayScreenAtom, reciverInfoAtom , balanceAtom , TransitionAtom } from '../Store/atom'
+import { userInfoAtom, showPayScreenAtom, reciverInfoAtom, balanceAtom, TransitionAtom } from '../Store/atom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import axios from 'axios';
 import Loader from './Loader';
@@ -15,12 +15,16 @@ function Dashboard() {
     const Transition = useRecoilValue(TransitionAtom)
     const [showUsers, setShowusers] = useState(true);
     const [UsersList, SetUsersList] = useState([]);
+    const [transitionsList, SettransitionsList] = useState([]);
     const [UsersFilter, setUsersFilter] = useState('');
     const [filteredUsersList, setfilteredUsersList] = useState(null);
-    const  setReciverInfo = useSetRecoilState(reciverInfoAtom)
-    const [balance , setBalance] = useRecoilState(balanceAtom)
+    const setReciverInfo = useSetRecoilState(reciverInfoAtom)
+    const [balance, setBalance] = useRecoilState(balanceAtom)
+    const today = new Date();
+    const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    console.log(transitionsList)
     useEffect(() => {
-       
+
         const getusers = async () => {
             try {
                 const { data } = await axios.get('http://localhost:3000/users',
@@ -36,9 +40,8 @@ function Dashboard() {
             }
         }
         getusers();
-       
-        console.log(UsersList)
     }, [])
+
 
     useEffect(() => {
         const fetchBalance = async () => {
@@ -56,7 +59,21 @@ function Dashboard() {
             }
         }
         fetchBalance();
-    } , [Transition])
+        const getTransitions = async () => {
+            try {
+                const { data } = await axios.get('http://localhost:3000/accounts/transitions',
+                    {
+                        headers: {
+                            'authorization': token,
+                        }
+                    })
+                SettransitionsList(data.message)
+            }
+            catch { }
+        }
+        getTransitions();
+        console.log(UsersList)
+    }, [Transition])
     useEffect(() => {
         const regex = new RegExp(UsersFilter, "i")
         const filterarray = async () => {
@@ -98,6 +115,7 @@ function Dashboard() {
                     {/* Transfer or history box starts from here */}
                     <div className=' w-11/12 max-w-3xl rounded-2xl bg-customBlue p-2  '>
                         {showUsers ?
+                            // user Table
                             <div className=' min-h-[31rem] w-full bg-customBlue flex flex-col'>
                                 <div className='sticky top-0 w-full p-1 py-2.5 bg-customBlue '>
                                     <div className='flex w-44 bg-white rounded-xl p-1 ml-2'>
@@ -113,28 +131,60 @@ function Dashboard() {
                                 <div className='overflow-auto h-[29rem] scrollbar-thin scrollbar-thumb-black scrollbar-track-black' >
                                     {filteredUsersList ? (
                                         filteredUsersList.map((user, index) => (
-                                            <div key={index} className=' mx-3 my-1 bg-white rounded-xl p-1  flex flex-row  justify-between items-center'>
-                                                <div>
-                                                    <div className='flex text-lg'>
-                                                        <div className='px-1'>{user.firstName}</div>
-                                                        <div>{user.lastName}</div>
+                                            user.username !== info.username && (
+                                                <div key={index} className=' mx-3 my-1 bg-white rounded-xl p-2  flex flex-row  justify-between items-center'>
+                                                    <div>
+                                                        <div className='flex text-lg'>
+                                                            <div className='px-1'>{user.firstName}</div>
+                                                            <div>{user.lastName}</div>
+                                                        </div>
+                                                        <div className='text-xs px-1'>@{user.username}</div>
                                                     </div>
-                                                    <div className='text-xs px-1'>@{user.username}</div>
+                                                    <button
+                                                        className=' px-3.5 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-xl'
+                                                        onClick={(e) => {
+                                                            setReciverInfo(user)
+                                                            setshowPayscreen(true)
+                                                        }}><span className='font-xs' >&#8377;</span> Pay</button>
                                                 </div>
-                                                <button
-                                                    className=' px-3.5 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-xl'
-                                                    onClick={(e) => {
-                                                        setReciverInfo(user)
-                                                        setshowPayscreen(true)
-                                                    }}><span className='font-xs' >&#8377;</span> Pay</button>
-                                            </div>
+                                            )
                                         ))
                                     ) : (
                                         <Loader />
                                     )}
                                 </div>
                             </div>
-                            : <History />}
+                            : <div className='min-h-[31rem] w-full bg-customBlue flex flex-col'>
+                                <div className='overflow-auto h-[29rem] scrollbar-thin scrollbar-thumb-black scrollbar-track-black' >
+                                    {transitionsList ? (
+                                        transitionsList.reverse().map((transition, index) => (
+                                            <div key={index} className=' mx-3 my-1 bg-white rounded-xl p-3  flex flex-row  justify-between items-center'>
+                                                <div className='flex flex-col'>
+                                                    <div>
+                                                        {transition.tousername == info.username ? transition.fromusername : transition.tousername}
+                                                    </div>
+                                                    <div>
+                                                       {((new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(), new Date(transition.date).getDate())) - todayWithoutTime) ==0 && <div>Today</div> }
+                                                       {(todayWithoutTime -
+                                                        (new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(),
+                                                        new Date(transition.date).getDate())
+                                                        )) ==86400000 && <div>Yesterday</div> }
+                                                         {(todayWithoutTime -
+                                                        (new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(),
+                                                        new Date(transition.date).getDate())
+                                                        )) > 86400000 && <div>{new Date(transition.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div> }
+                                                    </div>
+                                                </div>
+                                                <button
+                                                    className={`text-md  flex hover:scale-95 rounded-xl  ${transition.tousername == info.username ? 'text-green-600' : 'text-red-600'}`}
+                                                ><div>{transition.tousername == info.username ? '+' : '-'}</div>{transition.amount}</button>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <Loader />
+                                    )}
+                                </div>
+                            </div>}
                     </div>
                 </div>
             </>}
@@ -142,10 +192,6 @@ function Dashboard() {
     )
 }
 
-function History() {
-    return (
-        <></>
-    )
-}
+
 
 export default Dashboard

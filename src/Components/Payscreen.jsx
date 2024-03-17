@@ -83,7 +83,7 @@ function Payscreen() {
     }
 
     return (
-        <div className='h-full w-full absolute bg-[#000000c2] z-10 flex flex-col justify-center items-center'>
+        <div className='h-full w-full absolute bg-[#000000c2] z-10 flex flex-col justify-center items-center animate-Page_wiggle'>
             <div className='h-12 w-full'></div>
             {!TransitioSucess ? 
             <div className='relative w-full h-full sm:w-96 sm:h-96  bg-white sm:rounded-2xl'>
