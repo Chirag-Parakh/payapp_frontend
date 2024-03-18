@@ -2,7 +2,7 @@ import { atom, selector } from "recoil"
 
 export const userInfoAtom = atom({
     key: "userInfoAtom",
-    default: JSON.parse(localStorage.getItem('userinfo'))  || NULL
+    default: JSON.parse(localStorage.getItem('userinfo'))  || {}
 })
 
 export const showPayScreenAtom = atom({

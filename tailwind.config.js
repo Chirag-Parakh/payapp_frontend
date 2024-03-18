@@ -12,10 +12,16 @@ export default {
         'tiro-devanagari-hindi': ['Tiro Devanagari Hindi', 'sans-serif'],
       },
       colors: {
-        customBlue: '#dbecff', 
+        MidNight : '#002E6E',
+        BoxBlue : '#1150AF',
+        // customBlue: '#dbecff', 
+        DarkBlue: '#026EDD', 
+        customSky: '#dbecff', 
+        customBlue: '#6FA6F9', 
+        cyan :'#00B9F1',
         // customgray : '#0000000d'
-        customgray : '#4490c745',
-        customSky : '#026EDD'
+        // customgray : '#4490c745',
+        // customSky : '#026EDD'
       },
       borderRadius : {
         signinboxradius : '24px'

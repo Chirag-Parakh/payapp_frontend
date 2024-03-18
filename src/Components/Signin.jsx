@@ -3,10 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { userInfoAtom } from '../Store/atom';
 import { useSetRecoilState } from "recoil";
-
+import CustomBackground from './Background';
+import { FaRegEyeSlash  } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
 function Signin() {
     const [userName, setuserName] = useState('')
     const [password, setpassword] = useState('')
+    const [showpassword , setshowpassword] = useState(false);
     const navigate = useNavigate();
     const setuserInfo = useSetRecoilState(userInfoAtom)
     const handleFormSubmit = async (e) => {
@@ -39,31 +42,38 @@ function Signin() {
             }
         }
     }
-
     return (
-        <div className=' w-screen h-screen flex justify-center items-center '>
-            <div className=' py-4 px-6 w-80  rounded-[24px] flex flex-col justify-around bg-customBlue' >
+        <div className='overflow-hidden relative w-screen h-screen flex justify-center items-center '>
+            <div className='pt-20'>
+                <CustomBackground/>
+            </div>
+            <div className=' absolute py-4 px-6 max-w-80 w-11/12  rounded-[24px] flex flex-col justify-around bg-customSky' >
                 <form action="" onSubmit={handleFormSubmit} className='flex flex-col justify-between items-center'>
                     <input
                         type="text"
                         placeholder='Username'
-                        className='input-styles py-2'
+                        className='input-styles py-2 '
                         value={userName}
                         onChange={(e) => { setuserName(e.target.value) }}
                         required
                     />
-
+                    <div className='relative flex w-full bg-white'>
                     <input
-                        type="textS"
+                        type={showpassword ? 'text' : 'password'}
                         placeholder='Password'
-                        className='input-styles py-2'
+                        className='absolute px-3 py-1.5 border-b w-full my-2 transition-transform duration-150 focus:outline-none rounded-[24px]'
                         value={password}
                         onChange={(e) => { setpassword(e.target.value) }}
                         required
                     />
-                    <button type='submit' className='mt-4 px-3 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]'>Sign In</button>
+                    <div className='absolute z-10 right-0 text-MidNight mx-4 pt-.5 my-4 text-lg' onClick={() => {setshowpassword(!showpassword)}}>
+                        {showpassword ?<IoEyeOutline /> :<FaRegEyeSlash /> }
+                    </div>
+
+                    </div>
+                    <button type='submit' className='relative mt-16 px-4 text-lg bg-MidNight hover:scale-95 text-white rounded-[24px]'>Sign In</button>
                     <span className='border bg-black h-1 w-full mt-5'></span>
-                    <button className='mt-4 px-3 py-1 text-xg bg-[#026EDD] hover:scale-95 text-white rounded-[24px]' onClick={() => { navigate('/signup'); }}>Create new account</button>
+                    <button className='mt-4 px-3 py-1 text-xg bg-MidNight hover:scale-95 text-white rounded-[24px]' onClick={() => { navigate('/signup'); }}>Create new account</button>
 
                 </form>
             </div>

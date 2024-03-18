@@ -5,6 +5,7 @@ import axios from 'axios';
 import Loader from './Loader';
 import { IoIosSearch } from "react-icons/io";
 import Payscreen from './Payscreen';
+import CustomBackground from './Background';
 
 function Dashboard() {
     const info = useRecoilValue(userInfoAtom);
@@ -12,6 +13,7 @@ function Dashboard() {
     const Firstname = info.firstName;
     const name = Firstname[0].toUpperCase() + Firstname.slice(1)
     const token = localStorage.getItem("token")
+    const [showBalance, setshowBalance] = useState(false)
     const Transition = useRecoilValue(TransitionAtom)
     const [showUsers, setShowusers] = useState(true);
     const [UsersList, SetUsersList] = useState([]);
@@ -24,7 +26,6 @@ function Dashboard() {
     const todayWithoutTime = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     console.log(transitionsList)
     useEffect(() => {
-
         const getusers = async () => {
             try {
                 const { data } = await axios.get('http://localhost:3000/users',
@@ -91,103 +92,124 @@ function Dashboard() {
 
 
     return (
-        <div  >
-            {showPayscreen ? <Payscreen /> : <>
+        <div className="relative">
+            <div className="absolute inset-0 z-0 pt-6">
+                <CustomBackground />
+                {/* Background content */}
+            </div>
+            <div className="absolute inset-0 z-10">
+                <div >
+                    {showPayscreen ? <Payscreen /> : <>
 
-                <div className='h-12 w-full'></div>
-                <div className=' mt-3 flex flex-col items-center'>
-                    {/* Hello box */}
-                    <div className='bg-customBlue p-2 w-11/12 max-w-3xl rounded-lg flex flex-col'>
-                        <div>Hello {name} !</div>
-                        <div>Avalable Balance rs{balance}</div>
-                    </div>
-                    {/* Transfer or history button */}
-                    <div className='my-10 w-full flex justify-center'>
-                        <div className='flex p-1 bg-[#026EDD] rounded-lg max-w-96 w-11/12 justify-around'>
-                            <div className={`sliding-buttons ${showUsers ? '' : 'bg-[#026EDD] text-white'}`} onClick={() => { setShowusers(true) }}>
-                                Transfer
-                            </div>
-                            <div className={`sliding-buttons ${showUsers ? 'bg-[#026EDD] text-white' : ''}`} onClick={() => { setShowusers(false) }}>
-                                History
-                            </div>
-                        </div>
-                    </div>
-                    {/* Transfer or history box starts from here */}
-                    <div className=' w-11/12 max-w-3xl rounded-2xl bg-customBlue p-2  '>
-                        {showUsers ?
-                            // user Table
-                            <div className=' min-h-[31rem] w-full bg-customBlue flex flex-col'>
-                                <div className='sticky top-0 w-full p-1 py-2.5 bg-customBlue '>
-                                    <div className='flex w-44 bg-white rounded-xl p-1 ml-2'>
-                                        <IoIosSearch className=' text-xl m-1' />
-                                        <input
-                                            className=' w-full focus:outline-none rounded-r-lg  '
-                                            type="text"
-                                            placeholder='search'
-                                            onChange={(e) => { setUsersFilter(e.target.value) }}
-                                        />
+                        <div className='h-12 w-full'></div>
+                        <div className=' mt-3 flex flex-col items-center'>
+                            {/* Hello box */}
+                            <div className=' w-11/12 max-w-3xl flex mt-4 flex-col'>
+                                <div className=' bg-cyan h-6 pt-1 z-10 pl-1 pr-1 rounded-t-md '>
+                                    <div className='w-full h-10 flex justify-between bg-white rounded-t text-lg'>
+                                        <div className='flex text-2xl justify-start items-center w-1/2 pl-5'>
+                                            Hello&nbsp;<span className='text-cyan' > {name} </span>
+                                        </div>
+                                        {showBalance ?
+                                            <div className=' text-[18px] flex text-MidNight cursor-pointer justify-center items-center pr-5' onClick={() => { setshowBalance(false) }}><span className='font-xs pr-[2px]' >&#8377;</span>{balance}</div>
+                                            :
+                                            <div className='text-cyan text-sm flex cursor-pointer justify-center items-center pr-3' onClick={() => { setshowBalance(true) }}>Check Balance</div>
+                                        }
                                     </div>
                                 </div>
-                                <div className='overflow-auto h-[29rem] scrollbar-thin scrollbar-thumb-black scrollbar-track-black' >
-                                    {filteredUsersList ? (
-                                        filteredUsersList.map((user, index) => (
-                                            user.username !== info.username && (
-                                                <div key={index} className=' mx-3 my-1 bg-white rounded-xl p-2  flex flex-row  justify-between items-center'>
-                                                    <div>
-                                                        <div className='flex text-lg'>
-                                                            <div className='px-1'>{user.firstName}</div>
-                                                            <div>{user.lastName}</div>
-                                                        </div>
-                                                        <div className='text-xs px-1'>@{user.username}</div>
-                                                    </div>
-                                                    <button
-                                                        className=' px-3.5 text-lg bg-[#026EDD] hover:scale-95 text-white rounded-xl'
-                                                        onClick={(e) => {
-                                                            setReciverInfo(user)
-                                                            setshowPayscreen(true)
-                                                        }}><span className='font-xs' >&#8377;</span> Pay</button>
-                                                </div>
-                                            )
-                                        ))
-                                    ) : (
-                                        <Loader />
-                                    )}
+                                <div className=' border-4 border-MidNight h-6 pb-1 pl-1 pr-1 rounded-b-md'>
                                 </div>
                             </div>
-                            : <div className='min-h-[31rem] w-full bg-customBlue flex flex-col'>
-                                <div className='overflow-auto h-[29rem] scrollbar-thin scrollbar-thumb-black scrollbar-track-black' >
-                                    {transitionsList ? (
-                                        transitionsList.reverse().map((transition, index) => (
-                                            <div key={index} className=' mx-3 my-1 bg-white rounded-xl p-3  flex flex-row  justify-between items-center'>
-                                                <div className='flex flex-col'>
-                                                    <div>
-                                                        {transition.tousername == info.username ? transition.fromusername : transition.tousername}
-                                                    </div>
-                                                    <div>
-                                                       {((new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(), new Date(transition.date).getDate())) - todayWithoutTime) ==0 && <div>Today</div> }
-                                                       {(todayWithoutTime -
-                                                        (new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(),
-                                                        new Date(transition.date).getDate())
-                                                        )) ==86400000 && <div>Yesterday</div> }
-                                                         {(todayWithoutTime -
-                                                        (new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(),
-                                                        new Date(transition.date).getDate())
-                                                        )) > 86400000 && <div>{new Date(transition.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div> }
-                                                    </div>
-                                                </div>
-                                                <button
-                                                    className={`text-md  flex hover:scale-95 rounded-xl  ${transition.tousername == info.username ? 'text-green-600' : 'text-red-600'}`}
-                                                ><div>{transition.tousername == info.username ? '+' : '-'}</div>{transition.amount}</button>
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <Loader />
-                                    )}
+                            {/* Transfer or history button */}
+                            <div className='mt-10 w-full flex justify-center'>
+                                <div className={`flex  ${!showUsers ? 'bg-BoxBlue' : 'bg-customBlue '} rounded-t-lg w-11/12 max-w-3xl justify-around`}>
+                                    <div className={` w-1/2 py-2 text-lg text-center rounded-t-lg text-white bg-BoxBlue`} onClick={() => { setShowusers(true) }}>
+                                        Transfer
+                                    </div>
+                                    <div className={` w-1/2 py-2 text-lg text-center rounded-t-lg bg-customBlue  text-white}`} onClick={() => { setShowusers(false) }}>
+                                        History
+                                    </div>
                                 </div>
-                            </div>}
-                    </div>
+                            </div>
+                            {/* Transfer or history box starts from here */}
+                            <div className={`w-11/12 max-w-3xl rounded-b-2xl  p-2 ${showUsers ? 'bg-BoxBlue' : 'bg-customBlue '}`}>
+                                {showUsers ?
+                                    // user Table
+                                    <div className=' min-h-[39rem] sm:min-h-[31rem] w-full bg-BoxBlue flex flex-col'>
+                                        <div className='sticky top-0 w-full p-1 py-2 bg-BoxBlue '>
+                                            <div className='flex w-44 bg-white rounded-xl p-1 ml-2'>
+                                                <IoIosSearch className=' text-xl m-1' />
+                                                <input
+                                                    className=' w-full focus:outline-none rounded-r-lg  '
+                                                    type="text"
+                                                    placeholder='search'
+                                                    onChange={(e) => { setUsersFilter(e.target.value) }}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className='overflow-auto  sm:h-[29rem]  h-[35rem] scrollbar-thin scrollbar-thumb-black scrollbar-track-black' >
+                                            {filteredUsersList ? (
+                                                filteredUsersList.map((user, index) => (
+                                                    user.username !== info.username && (
+                                                        <div key={index} className=' mx-3 my-1 bg-white rounded-xl p-1  flex flex-row  justify-between items-center'>
+                                                            <div>
+                                                                <div className='flex text-lg h-6 '>
+                                                                    <div className='px-1'>{user.firstName}</div>
+                                                                    <div>{user.lastName}</div>
+                                                                </div>
+                                                                <div className='text-xs px-1 pb-0.5'>@{user.username}</div>
+                                                            </div>
+                                                            <button
+                                                                className=' px-3 py-1 text-md bg-MidNighthover:scale-95 text-white bg-MidNight rounded-xl'
+                                                                onClick={(e) => {
+                                                                    setReciverInfo(user)
+                                                                    setshowPayscreen(true)
+                                                                }}><span className='font-xs' >&#8377;</span> Pay</button>
+                                                        </div>
+                                                    )
+                                                ))
+                                            ) : (
+                                                <Loader />
+                                            )}
+                                        </div>
+                                    </div>
+                                    : <div className=' min-h-[39rem] sm:min-h-[31rem]  w-full bg-customBlue flex flex-col'>
+                                        <div className='overflow-auto pt-2 sm:pt-0 h-[38rem] sm:h-[29rem] scrollbar-thin scrollbar-thumb-black scrollbar-track-black' >
+                                            {transitionsList ? (
+                                                transitionsList.reverse().map((transition, index) => (
+                                                    <div key={index} className=' mx-3 my-1 bg-white rounded-xl p-3  flex flex-row  justify-between items-center'>
+                                                        <div className='flex flex-col'>
+                                                            <div className='text-lg text-MidNight' >
+                                                                {transition.tousername == info.username ? transition.fromusername : transition.tousername}
+                                                            </div>
+                                                            <div className='text-xs'>
+                                                                {((new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(), new Date(transition.date).getDate())) - todayWithoutTime) == 0 && <div>Today</div>}
+                                                                {(todayWithoutTime -
+                                                                    (new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(),
+                                                                        new Date(transition.date).getDate())
+                                                                    )) == 86400000 && <div>Yesterday</div>}
+                                                                {(todayWithoutTime -
+                                                                    (new Date(new Date(transition.date).getFullYear(), new Date(transition.date).getMonth(),
+                                                                        new Date(transition.date).getDate())
+                                                                    )) > 86400000 && <div>{new Date(transition.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</div>}
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            className={`text-md  flex hover:scale-95 rounded-xl  ${transition.tousername == info.username ? 'text-green-600' : 'text-red-600'}`}
+                                                        ><div>{transition.tousername == info.username ? '+' : '-'}</div><span className='font-xs' >&nbsp;&#8377;</span>{transition.amount}</button>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <Loader />
+                                            )}
+                                        </div>
+                                    </div>}
+                            </div>
+                        </div>
+                    </>}
                 </div>
-            </>}
+                {/* Foreground content */}
+            </div>
         </div>
     )
 }
