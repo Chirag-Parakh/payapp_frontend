@@ -10,6 +10,11 @@ export const showPayScreenAtom = atom({
     default : false
 })
 
+export const isLoggedInAtom = atom({
+    key : 'isLoggedInAtom',
+    default : JSON.parse(localStorage.getItem('userinfo')) ? true : false
+})
+
 export const balanceAtom = atom({
     key : 'balanceAtom',
     default : 0

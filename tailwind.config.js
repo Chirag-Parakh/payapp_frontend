@@ -19,7 +19,7 @@ export default {
         customSky: '#dbecff', 
         customBlue: '#6FA6F9', 
         cyan :'#00B9F1',
-        // customgray : '#0000000d'
+        customgray : '#00000059'
         // customgray : '#4490c745',
         // customSky : '#026EDD'
       },

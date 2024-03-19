@@ -32,11 +32,11 @@ function Payscreen() {
             setWidth(20)
         }
     }, [amount]);
-    const BackToDashboard = () => {
-        setTimeout(() => {
-            setshowPayScreenAtom(false)
-        }, 7000);
-    }
+    // const BackToDashboard = () => {
+    //     setTimeout(() => {
+    //         setshowPayScreenAtom(false)
+    //     }, 7000);
+    // }
     const handleTransfer = async () => {
         var amountInt = parseInt(amount)
         if (amountInt == 0) {
@@ -87,7 +87,7 @@ function Payscreen() {
             <div className=' absolute  h-screen w-screen z-20 flex flex-col justify-center items-center '>
                 <div className='h-12 w-full'></div>
                 {!TransitioSucess ?
-                    <div className='relative w-full h-full sm:w-96 sm:h-96 bg-customBlue sm:rounded-2xl'>
+                    <div className='relative w-full h-full sm:w-96 sm:h-96 bg-customSky sm:bg-customBlue sm:rounded-2xl'>
                         {/* Header */}
                         <div className=' p-2.5 sm:p-0 flex sm:h-1/6  border-MidNight border-b-2'>
                             {/* Arrow */}
@@ -121,7 +121,7 @@ function Payscreen() {
                                     autoFocus
                                     placeholder='0'
                                     value={amount}
-                                    className='no-spinner bg-customBlue'
+                                    className='no-spinner  bg-customSky sm:bg-customBlue'
                                     style={{ outline: 'none', caretColor: '#026EDD', width: `${width}px`, minWidth: '20px' }}
                                     onChange={(e) => { setAmount(e.target.value) }}
                                 />
@@ -154,9 +154,9 @@ function Payscreen() {
                             </div>
                             <div className='mt-2 h-7'><NumberToText toConvert={amount} /></div>
                             <div className='mb-2 text-sm'>To: @{reciverInfo.username}</div>
-                            <div className='w-full'>
+                            {/* <div className='w-full'>
                                 <div className='w-full h-2 sm:mt-0 bg-MidNight animate-reduWidth'></div>
-                            </div>
+                            </div> */}
 
                             {/* </div> */}
                         </div>

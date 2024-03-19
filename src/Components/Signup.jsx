@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 import { FaCheck } from "react-icons/fa";
-import { userInfoAtom } from '../Store/atom';
+import { userInfoAtom  ,isLoggedInAtom} from '../Store/atom';
 import { useSetRecoilState } from "recoil";
 import CustomBackground from './Background';
 import { FaRegEyeSlash } from "react-icons/fa";
@@ -22,6 +22,7 @@ function Signup() {
   const [numValid, setnumValid] = useState(false);
   const [specValid, setspecValid] = useState(false);
   const [lenValid, setlenValid] = useState(false);
+  const setIsLoggedInAtom = useSetRecoilState(isLoggedInAtom);
   const navigate = useNavigate();
   const setuserInfo = useSetRecoilState(userInfoAtom);
 
@@ -46,6 +47,7 @@ function Signup() {
       console.log(data);
       localStorage.setItem("token", data.token);
       localStorage.setItem("userinfo", JSON.stringify(data.UserInfo));
+      setIsLoggedInAtom(true);
       if (data.token) {
         navigate('/dashboard');
       }

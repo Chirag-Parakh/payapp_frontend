@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import { userInfoAtom } from '../Store/atom';
-import { useSetRecoilState } from "recoil";
+import React, { useEffect, useState } from 'react';
+import { userInfoAtom  , isLoggedInAtom } from '../Store/atom';
+import { useSetRecoilState , useRecoilState } from "recoil";
 import CustomBackground from './Background';
 import { FaRegEyeSlash  } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
@@ -10,8 +10,14 @@ function Signin() {
     const [userName, setuserName] = useState('')
     const [password, setpassword] = useState('')
     const [showpassword , setshowpassword] = useState(false);
+    const [IsLoggedIn , setIsLoggedIn] = useRecoilState(isLoggedInAtom);
     const navigate = useNavigate();
     const setuserInfo = useSetRecoilState(userInfoAtom)
+    useEffect(() => {
+        if(IsLoggedIn){
+            navigate('/dashboard')
+        }
+    } , []) 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -23,6 +29,7 @@ function Signin() {
             setuserInfo(data.UserInfo);
             localStorage.setItem("token", data.token);
             localStorage.setItem("userinfo", JSON.stringify(data.UserInfo));
+            setIsLoggedIn(true)
             if (data.token) {
                 navigate('/dashboard');
             }
@@ -47,7 +54,7 @@ function Signin() {
             <div className='pt-20'>
                 <CustomBackground/>
             </div>
-            <div className=' absolute py-4 px-6 max-w-80 w-11/12  rounded-[24px] flex flex-col justify-around bg-customSky' >
+            <div  className=' absolute py-4 px-6 max-w-80 w-11/12  rounded-[24px] flex flex-col justify-around bg-customSky' >
                 <form action="" onSubmit={handleFormSubmit} className='flex flex-col justify-between items-center'>
                     <input
                         type="text"
