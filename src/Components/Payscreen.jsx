@@ -49,7 +49,7 @@ function Payscreen() {
             try {
                 console.log(reciverInfo.username);
                 console.log(token);
-                const { data } = await axios.post('http://localhost:3000/accounts/transfer', {
+                const { data } = await axios.post('https://paisaaapi.onrender.com/accounts/transfer', {
                     toUsername: reciverInfo.username,
                     amount: amountInt
                 },
@@ -62,7 +62,7 @@ function Payscreen() {
                 console.log(data.message)
                 setTransition(Transition + 1);
                 setTransitionSuccess(true);
-                BackToDashboard();
+                // BackToDashboard();
             }
             catch (error) {
                 console.log(error)

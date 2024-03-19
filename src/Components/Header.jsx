@@ -76,7 +76,7 @@ function Header() {
       if (passwordChanged) {
         requestData.password = password;
       }
-      const { data } = await axios.put('http://localhost:3000/update', requestData, {
+      const { data } = await axios.put('https://paisaaapi.onrender.com/update', requestData, {
         headers: {
           'authorization': token,
         }
