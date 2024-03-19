@@ -14,6 +14,7 @@ import { FaArrowLeft } from "react-icons/fa";
 function Header() {
   const [isLoggedIn, setisLoggedIn] = useRecoilState(isLoggedInAtom);
   const [userInfo, setuserInfo] = useRecoilState(userInfoAtom);
+  console.log(userInfo)
   const [userName, setuserName] = useState(userInfo.username)
   const [password, setpassword] = useState('')
   const [conpassword, setconpassword] = useState('')
@@ -85,6 +86,7 @@ function Header() {
       console.log(data);
       localStorage.setItem("userinfo", JSON.stringify(data.UserInfo));
       alert('info updated successfully')
+      setshowEditPage(false)
 
     }
     catch (error) {
