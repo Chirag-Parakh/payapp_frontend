@@ -107,7 +107,9 @@ function Header() {
       <div className='font-tiro-devanagari-hindi mx-4 mt-2 text-3xl flex items-center '>पैईसा</div>
       <div className='relative'>
         <div className='flex mr-2'>
+          {isLoggedIn &&
           <div className='w-7 h-7 mx-2 bg-customSky cursor-pointer hover:opacity-80 text-MidNight rounded-full text-xl text-center' onClick={() => { setshowEditPage(true) }}>{userInfo.username[0]}</div>
+          }
           <div className='text-2xl mx-1 hover:opacity-80 cursor-pointer flex justify-center items-center' onClick={() => { handleSignOut() }}>
             {isLoggedIn ? <FaSignOutAlt /> : ""}
           </div>
