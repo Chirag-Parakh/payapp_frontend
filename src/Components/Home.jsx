@@ -29,7 +29,7 @@ function Home() {
     useEffect(() => {
         const getusers = async () => {
             try {
-                const { data } = await axios.get('http://ec2-44-205-253-66.compute-1.amazonaws.com:3000/users',
+                const { data } = await axios.get('https://paisaaapi.onrender.com/users',
                     {
                         headers: {
                             'authorization': token,
@@ -48,7 +48,7 @@ function Home() {
     useEffect(() => {
         const fetchBalance = async () => {
             try {
-                const { data } = await axios.get('http://ec2-44-205-253-66.compute-1.amazonaws.com:3000/accounts/getbalance',
+                const { data } = await axios.get('https://paisaaapi.onrender.com/accounts/getbalance',
                     {
                         headers: {
                             'authorization': token,
@@ -63,7 +63,7 @@ function Home() {
         fetchBalance();
         const getTransitions = async () => {
             try {
-                const { data } = await axios.get('http://ec2-44-205-253-66.compute-1.amazonaws.com:3000/accounts/transitions',
+                const { data } = await axios.get('https://paisaaapi.onrender.com/accounts/transitions',
                     {
                         headers: {
                             'authorization': token,

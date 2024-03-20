@@ -49,7 +49,7 @@ function Payscreen() {
             try {
                 console.log(reciverInfo.username);
                 console.log(token);
-                const { data } = await axios.post('http://ec2-44-205-253-66.compute-1.amazonaws.com:3000/accounts/transfer', {
+                const { data } = await axios.post('https://paisaaapi.onrender.com/accounts/transfer', {
                     toUsername: reciverInfo.username,
                     amount: amountInt
                 },
