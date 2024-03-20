@@ -6,7 +6,7 @@ import Loader from './Loader';
 import { IoIosSearch } from "react-icons/io";
 import Payscreen from './Payscreen';
 import CustomBackground from './Background';
-import Popup from './Popup';
+// import Popup from './Popup';
 
 function Home() {
     const info = useRecoilValue(userInfoAtom);
@@ -94,7 +94,7 @@ function Home() {
 
     return (
         <div className="relative">
-            <Popup/>
+            {/* <Popup/> */}
             <div className="absolute inset-0 z-0 pt-6">
                 <CustomBackground />
                 {/* Background content */}
