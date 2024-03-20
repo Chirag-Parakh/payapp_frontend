@@ -39,6 +39,10 @@ export default {
           '0%': { width: '100%' },
           '100%': { width: '0' },
         },
+        dot1:{
+          '0%' : {display : "inline block"},
+          '0%' : {display : "inline block"},
+        }
       },
       animation: {
         wiggle: 'wiggle 2s ease-in-out infinite',

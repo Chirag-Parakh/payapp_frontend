@@ -76,11 +76,16 @@ function Header() {
       if (passwordChanged) {
         requestData.password = password;
       }
-      const { data } = await axios.put('https://paisaaapi.onrender.com/update', requestData, {
+      const { data } = await axios.put('http://ec2-44-205-253-66.compute-1.amazonaws.com:3000/update', requestData, {
         headers: {
           'authorization': token,
         }
       })
+      // const { data } = await axios.put('https://paisaaapi.onrender.com/update', requestData, {
+      //   headers: {
+      //     'authorization': token,
+      //   }
+      // })
       setuserInfo(data.UserInfo)
       console.log(data.userInfo)
       console.log(data);

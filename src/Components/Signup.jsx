@@ -33,7 +33,7 @@ function Signup() {
       return alert("Password and confirm password does not match")
     }
     try {
-      const { data } = await axios.post('https://paisaaapi.onrender.com/signup', {
+      const { data } = await axios.post('http://ec2-44-205-253-66.compute-1.amazonaws.com:3000/signup', {
         username: userName,
         password: password,
         email: mail,
